@@ -15,6 +15,8 @@ class WorkoutRepository(private val dao: WorkoutDao) {
 
     suspend fun deleteSession(session: WorkoutSession) = dao.delete(session)
 
+    suspend fun deleteSessionById(id: Long) = dao.deleteById(id)
+
     suspend fun getSessionById(id: Long): WorkoutSession? = dao.getById(id)
 
     fun countSince(epochMillis: Long): Flow<Int> = dao.getCountSince(epochMillis)
