@@ -11,6 +11,9 @@ sealed class BottomNavItem(val route: String, val label: String, val icon: Image
     object Workouts : BottomNavItem("workouts", "Workouts", Icons.Filled.FitnessCenter)
     object History : BottomNavItem("history", "History", Icons.Filled.History)
 
+    fun matchesDestination(destinationRoute: String?): Boolean =
+        NavRoutes.matchesBottomNavTab(destinationRoute, route)
+
     companion object {
         val items = listOf(Dashboard, Workouts, History)
     }

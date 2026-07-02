@@ -12,8 +12,6 @@ import com.example.final_exam_project.ui.screens.dashboard.DashboardScreen
 import com.example.final_exam_project.ui.screens.history.HistoryScreen
 import com.example.final_exam_project.ui.screens.workouts.WorkoutsScreen
 
-private const val EDIT_ID_ARG = "editId"
-
 @Composable
 fun FitTrackNavGraph(
     navController: NavHostController,
@@ -34,17 +32,23 @@ fun FitTrackNavGraph(
         }
 
         composable(
-            route = "${BottomNavItem.Workouts.route}/{$EDIT_ID_ARG}",
-            arguments = listOf(navArgument(EDIT_ID_ARG) { type = NavType.LongType })
+            route = NavRoutes.workoutsEditPattern(),
+            arguments = listOf(
+                navArgument(NavRoutes.EDIT_ID_ARG) { type = NavType.LongType }
+            )
         ) { backStackEntry ->
-            val editingId = backStackEntry.arguments?.getLong(EDIT_ID_ARG)
+            val editingId = backStackEntry.arguments?.getLong(NavRoutes.EDIT_ID_ARG)
             WorkoutsScreen(viewModelFactory = viewModelFactory, editingId = editingId)
         }
 
         composable(BottomNavItem.History.route) {
             HistoryScreen(
                 viewModelFactory = viewModelFactory,
-                onEditSession = { id -> navController.navigate("${BottomNavItem.Workouts.route}/$id") }
+                onEditSession = { id ->
+                    navController.navigate(NavRoutes.workoutsEdit(id)) {
+                        launchSingleTop = true
+                    }
+                }
             )
         }
     }

@@ -24,7 +24,10 @@ fun HistoryScreen(
 
     Scaffold(modifier = modifier) { paddingValues ->
         if (uiState.sessions.isEmpty()) {
-            EmptyState(message = "No workouts logged yet", modifier = Modifier)
+            EmptyState(
+                message = "No workouts logged yet",
+                modifier = Modifier.padding(paddingValues)
+            )
         } else {
             LazyColumn(modifier = Modifier.padding(paddingValues)) {
                 items(uiState.sessions, key = { it.id }) { session ->

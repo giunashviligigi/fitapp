@@ -9,7 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -23,12 +22,12 @@ fun FitTrackNavHost(viewModelFactory: ViewModelFactory) {
     Scaffold(
         bottomBar = {
             val backStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = backStackEntry?.destination
+            val currentRoute = backStackEntry?.destination?.route
 
             NavigationBar {
                 BottomNavItem.items.forEach { item ->
                     NavigationBarItem(
-                        selected = currentRoute?.hierarchy?.any { it.route == item.route } == true,
+                        selected = item.matchesDestination(currentRoute),
                         onClick = {
                             navController.navigate(item.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
